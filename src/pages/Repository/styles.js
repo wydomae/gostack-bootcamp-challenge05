@@ -40,6 +40,36 @@ export const Owner = styled.header`
     text-align: center;
     max-width: 400px;
   }
+
+  span {
+    margin-top: 15px;
+    font-size: 16px;
+    color: #7159c1;
+    font-weight: bold;
+  }
+
+  div {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    width: 200px;
+
+    button {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      color: #fff;
+      background: #7159c1;
+      border: 1px solid #fff;
+    }
+
+    button:hover {
+      border: 1px solid #7159c1;
+      color: #7159c1;
+      background: #fff;
+    }
+  }
 `;
 
 export const IssueList = styled.ul`
@@ -66,7 +96,7 @@ export const IssueList = styled.ul`
     border: 2px solid #eee;
   }
 
-  div {
+  div.content {
     flex: 1;
     margin-left: 15px;
 
@@ -98,6 +128,33 @@ export const IssueList = styled.ul`
       margin-top: 5px;
       font-size: 12px;
       color: #999;
+    }
+  }
+
+  div.pages {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+
+    button {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      color: #fff;
+      background: #7159c1;
+      border: 1px solid #fff;
+    }
+
+    button:hover {
+      border: 1px solid #7159c1;
+      color: #7159c1;
+      background: #fff;
+    }
+
+    button.previous {
+      cursor: ${props => (props.page === 1 ? 'not-allowed' : 'pointer')};
+      opacity: ${props => (props.page === 1 ? 0.6 : 1)};
     }
   }
 `;

@@ -1,6 +1,6 @@
 ## GoStack - Rocketseat Bootcamp - Challenge 05
 
-Application created using ReactJS where you can add repositories and check the issues opened on GitHub. <br />
+Application created using ReactJS and GitHub API to add and list repositories and its list of issues <br />
 
 Instructions for the challange can be found here: https://github.com/Rocketseat/bootcamp-gostack-desafio-05/blob/master/README.md
 

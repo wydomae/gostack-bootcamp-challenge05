@@ -45,69 +45,43 @@ export default class Repository extends Component {
     });
   }
 
-  setAll = async () => {
+  setIssue = async e => {
     const { match } = this.props;
     const { page } = this.state;
+    const { className } = e.target;
 
     const repoName = decodeURIComponent(match.params.repository);
     const response = await api.get(`/repos/${repoName}/issues`, {
       params: {
-        state: 'all',
+        state: className,
         page,
         per_page: 30,
       },
     });
     this.setState({
       issues: response.data,
-      state: 'all',
+      state: className,
     });
   };
 
-  setOpen = async () => {
-    const { match } = this.props;
-    const { page } = this.state;
-
-    const repoName = decodeURIComponent(match.params.repository);
-    const response = await api.get(`/repos/${repoName}/issues`, {
-      params: {
-        state: 'open',
-        page,
-        per_page: 30,
-      },
-    });
-    this.setState({
-      issues: response.data,
-      state: 'open',
-    });
-  };
-
-  setClosed = async () => {
-    const { match } = this.props;
-    const { page } = this.state;
-
-    const repoName = decodeURIComponent(match.params.repository);
-    const response = await api.get(`/repos/${repoName}/issues`, {
-      params: {
-        state: 'closed',
-        page,
-        per_page: 30,
-      },
-    });
-    this.setState({
-      issues: response.data,
-      state: 'closed',
-    });
-  };
-
-  previousPage = async () => {
+  changePage = async e => {
     const { match } = this.props;
     const { state, page } = this.state;
+    const { className } = e.target;
+    let newPage = page;
 
     const repoName = decodeURIComponent(match.params.repository);
+
+    if (className) {
+      newPage -= 1;
+    } else {
+      newPage += 1;
+    }
+
     const response = await api.get(`/repos/${repoName}/issues`, {
       params: {
         state,
-        page: page - 1,
+        page: newPage,
         per_page: 30,
       },
     });
@@ -115,27 +89,7 @@ export default class Repository extends Component {
     this.setState({
       issues: response.data,
       state,
-      page: page - 1,
-    });
-  };
-
-  nextPage = async () => {
-    const { match } = this.props;
-    const { state, page } = this.state;
-
-    const repoName = decodeURIComponent(match.params.repository);
-    const response = await api.get(`/repos/${repoName}/issues`, {
-      params: {
-        state,
-        page: page + 1,
-        per_page: 30,
-      },
-    });
-
-    this.setState({
-      issues: response.data,
-      state,
-      page: page + 1,
+      page: newPage,
     });
   };
 
@@ -156,20 +110,23 @@ export default class Repository extends Component {
           <span>Filter Issues: </span>
           <div>
             <button
-              onClick={state !== 'all' ? this.setAll : null}
+              onClick={state !== 'all' ? this.setIssue : null}
               type="submit"
+              className="all"
             >
               All
             </button>
             <button
-              onClick={state !== 'open' ? this.setOpen : null}
+              onClick={state !== 'open' ? this.setIssue : null}
               type="submit"
+              className="open"
             >
               Open
             </button>
             <button
-              onClick={state !== 'closed' ? this.setClosed : null}
+              onClick={state !== 'closed' ? this.setIssue : null}
               type="submit"
+              className="closed"
             >
               Closed
             </button>
@@ -194,12 +151,15 @@ export default class Repository extends Component {
           <div className="pages">
             <button
               className="previous"
-              onClick={page !== 1 ? this.previousPage : null}
+              onClick={page !== 1 ? this.changePage : null}
               type="submit"
             >
               Página Anterior
             </button>
-            <button onClick={page <= 100 ? this.nextPage : null} type="submit">
+            <button
+              onClick={page <= 100 ? this.changePage : null}
+              type="submit"
+            >
               Próxima Página
             </button>
           </div>
